@@ -1,6 +1,6 @@
 <?php
 
-namespace ICOSE\InspiralReader\View\Shortcode;
+namespace DOOD\Tonic\Registrar;
 
 use Closure;
 use DOOD\Tonic\Registrar\AJAXEndpoint;
