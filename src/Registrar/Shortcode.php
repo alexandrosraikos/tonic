@@ -21,12 +21,12 @@ abstract class Shortcode
      * @since 0.0.3
      * @version 2.0
      */
-    public static function add(ViewController $view, string $tag): void
+    public static function add(ViewController $view): void
     {
         if (!is_admin()) {
             // Register the shortcode.
             add_shortcode(
-                str_replace('-', '_', $tag),
+                str_replace('-', '_', static::$tag),
                 fn ($attributes) => static::register($view, $attributes)
             );
         }
