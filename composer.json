@@ -14,8 +14,10 @@
       "email": "alexandros@dood.gr"
     }
   ],
-  "minimum-stability": "stable",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
+    "php": ">=8.0",
     "lexdubyna/blade": "^1.5",
     "composer/class-map-generator": "^1.0"
   }
