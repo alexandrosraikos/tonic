@@ -1,0 +1,21 @@
+{
+  "name": "doodengineering/tonic",
+  "description": "An intuitive WordPress plugin development framework.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "DOOD\\Tonic\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alexandros Raikos",
+      "email": "alexandros@dood.gr"
+    }
+  ],
+  "require": {
+    "lexdubyna/blade": "^1.5",
+    "composer/class-map-generator": "^1.0"
+  }
+}
