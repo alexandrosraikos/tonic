@@ -5,11 +5,40 @@ namespace DOOD\Tonic\Registrar;
 use Closure;
 use Error;
 
+/**
+ * The WordPress REST endpoint hook class.
+ *
+ * @since 1.1.2
+ * @author Alexandros Raikos <alexandros@dood.gr>
+ */
 class RESTEndpoint extends Hook
 {
+    /**
+     * @var string $namespace The API namespace.
+     *
+     * @since 1.1.2
+     */
     public string $namespace;
+    
+    /**
+     * @var string $route The API route.
+     *
+     * @since 1.1.2
+     */
     public string $route;
+    
+    /**
+     * @var array|string|Closure $responder The responding callback.
+     *
+     * @since 1.1.2
+     */
     public array|string|Closure $responder;
+    
+    /**
+     * @var string $methods The comma separated string of HTTP methods.
+     *
+     * @since 1.1.2
+     */
     public string $methods;
 
     /**
@@ -45,9 +74,16 @@ class RESTEndpoint extends Hook
         );
     }
 
-    public function publish()
+    /**
+     * Publish the REST endpoint.
+     *
+     * @return void
+     * @since 1.1.2
+     */
+    public function publish(): void
     {
-        $registered = register_rest_route(
+        $registered = call_user_func(
+            'register_rest_route',
             $this->namespace,
             $this->route,
             [
@@ -61,6 +97,12 @@ class RESTEndpoint extends Hook
         }
     }
 
+    /**
+     * Handle the responding callback.
+     *
+     * @return WP_REST_Response The response
+     * @since 1.1.2
+     */
     public function handle(\WP_REST_Request $request): \WP_REST_Response
     {
         // Attempt to handle.

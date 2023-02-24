@@ -4,17 +4,33 @@ namespace DOOD\Tonic\Registrar;
 
 use Closure;
 
+/**
+ * The hook set class for bundling hooks together.
+ *
+ * @since 1.0.0
+ * @author Alexandros Raikos <alexandros@dood.gr>
+ */
 class HookSet
 {
     /**
-     * @var array<Hook> An array of hooks.
+     * @var array<Hook> $hooks An array of hooks.
      */
     protected array $hooks;
-
+    
+    /**
+     * @var ?string $name The name of the hook set.
+     */
     public ?string $name;
-
+    
+    /**
+     * @var ?int $priority The common priority of included hooks.
+     */
     public ?int $priority;
-
+    
+    
+    /**
+     * @var ?int $arguments The common number of arguments of included hooks.
+     */
     public ?int $arguments;
 
     protected array|string|Closure|null $completion;
@@ -26,7 +42,7 @@ class HookSet
      * @param string $name The group name.
      * @param ?array $properties An optional array of grouped properties.
      *
-     * @since 0.0.3
+     * @since 1.0.0
      */
     public function __construct(?string $name, ?array $properties, Hook ...$hooks)
     {
@@ -40,6 +56,11 @@ class HookSet
         }
     }
 
+    /**
+     * Register the included hooks in the WordPress actions list.
+     *
+     * @since 1.0.0
+     */
     public function register()
     {
         foreach ($this->hooks as $hook) {

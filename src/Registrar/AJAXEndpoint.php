@@ -12,6 +12,17 @@ use Closure;
  */
 class AJAXEndpoint extends Hook
 {
+    /**
+     * Instantiate an AJAX endpoint.
+     * @param string $pluginID The plugin ID.
+     * @param string $actionID The AJAX action ID.
+     * @param array|string|Closure $responder The responding callback.
+     * @param int $priority = 10 The hook priority.
+     * @param int $arguments = 1  The number of arguments.
+     * @param bool $private = false Whether to limit to administrators.
+     *
+     * @since 1.1.0
+     */
     public function __construct(
         string $pluginID,
         string $actionID,
@@ -34,7 +45,6 @@ class AJAXEndpoint extends Hook
      * Validate specific AJAX POST parameters.
      *
      * @return void
-     *
      * @since 1.1.0
      */
     protected static function validate(): void
@@ -46,14 +56,14 @@ class AJAXEndpoint extends Hook
         }
 
         // Verify the action related nonce.
-        $action = sanitize_key($_POST['action']);
-        if (!wp_verify_nonce(
-            sanitize_text_field(wp_unslash($_POST['nonce'])),
-            $action
-        )
-        ) {
+        $action = call_user_func('sanitize_key', $_POST['action']);
+        $nonce = call_user_func(
+            'sanitize_text_field',
+            call_user_func('wp_unslash', $_POST['nonce'])
+        );
+        if (!call_user_func('wp_verify_nonce', $nonce, $action)) {
             http_response_code(403);
-            die('Unverified request for action: ' . esc_attr($action));
+            die('Unverified request for action: ' . call_user_func('esc_attr', $action));
         }
     }
 
@@ -88,7 +98,7 @@ class AJAXEndpoint extends Hook
                     ARRAY_FILTER_USE_KEY
                 )
             );
-            $report(!empty($data) ? wp_json_encode($data) : null, 200);
+            $report(!empty($data) ? call_user_func('wp_json_encode', $data) : null, 200);
         } catch (\Exception $e) {
             $report($e->getMessage(), 500);
         }
