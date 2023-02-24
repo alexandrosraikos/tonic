@@ -49,7 +49,7 @@ class Hook
     
     public static function action($name, array|string|Closure $completion, $priority = 10, $arguments = 1)
     {
-        return new self(
+        return new static(
             'action',
             $name,
             $completion,
@@ -60,7 +60,7 @@ class Hook
 
     public static function filter($name, array|string|Closure $completion, $priority = 10, $arguments = 1)
     {
-        return new self(
+        return new static(
             'action',
             $name,
             $completion,
@@ -69,8 +69,11 @@ class Hook
         );
     }
 
-    public static function group(?string $name = null, ?array $properties = null, self ...$hooks): HookSet
-    {
+    public static function group(
+        ?string $name = null,
+        ?array $properties = null,
+        Hook ...$hooks
+    ): HookSet {
         $group = new HookSet($name, $properties, ...$hooks);
         $group->register();
         return $group;

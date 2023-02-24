@@ -29,6 +29,6 @@ abstract class Feature
      */
     public function allowed(): bool
     {
-        return true;
+        return !wp_doing_cron();
     }
 }

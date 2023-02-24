@@ -3,9 +3,15 @@
 namespace DOOD\Tonic\Registrar;
 
 use Closure;
+use Error;
 
 class RESTEndpoint extends Hook
 {
+    public string $namespace;
+    public string $route;
+    public array|string|Closure $responder;
+    public string $methods;
+
     /**
      * Register a WP REST API endpoint.
      *
@@ -25,36 +31,51 @@ class RESTEndpoint extends Hook
         string $methods = 'GET',
         int $priority = 10
     ) {
+        $this->namespace = $namespace;
+        $this->route = $route;
+        $this->responder = $responder;
+        $this->methods = $methods;
+
         parent::__construct(
             'action',
-            "rest_api_init",
-            register_rest_route(
-                $namespace,
-                $route,
-                [
-                    'methods' => $methods,
-                    'callback' =>
-                        fn(WP_REST_Request $request) => $this->handle($request, $responder),
-                ]
-            ),
+            'rest_api_init',
+            [$this, 'publish'],
             $priority,
             1
         );
     }
 
-    protected function handle(WP_REST_Request $request, Closure $responder): WP_REST_Response
+    public function publish()
+    {
+        $registered = register_rest_route(
+            $this->namespace,
+            $this->route,
+            [
+                'methods' => $this->methods,
+                'callback' => [$this, 'handle'],
+            ]
+        );
+
+        if (!$registered) {
+            throw new Error("The REST endpoint couldn't be registered.");
+        }
+    }
+
+    public function handle(\WP_REST_Request $request): \WP_REST_Response
     {
         // Attempt to handle.
         try {
-            $response = $responder($request->get_params(), $request);
+            $response = call_user_func($this->responder, $request);
             if (is_a($response, 'WP_REST_Response')) {
                 return $response;
             }
-            $response = new WP_REST_Response($response);
+            $response = new \WP_REST_Response($response);
             $response->set_status(200);
             return $response;
         } catch (\Exception $e) {
-            return (new WP_REST_Response(['error' => $e->getMessage()]))->set_status(500);
+            $response = new \WP_REST_Response($e->getMessage());
+            $response->set_status(500);
+            return $response;
         }
     }
 }

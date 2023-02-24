@@ -2,7 +2,7 @@
 
 namespace DOOD\Tonic\Registrar\Workflow;
 
-trait CustomHooks
+trait WithCustomHooks
 {
     public function enable()
     {
