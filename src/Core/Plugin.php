@@ -36,7 +36,7 @@ class Plugin
     protected function features(): FeatureSet
     {
         return new FeatureSet(
-            array_map(
+            ...array_map(
                 fn($feature) => new $feature(),
                 $this->filesystem->classes('/plugin/Feature')
             )

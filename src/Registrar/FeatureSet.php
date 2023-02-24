@@ -6,7 +6,7 @@ class FeatureSet
 {
     protected array $features;
 
-    public function __construct(Feature|array ...$features)
+    public function __construct(Feature ...$features)
     {
         $this->features = $features;
     }
