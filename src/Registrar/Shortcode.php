@@ -3,8 +3,8 @@
 namespace DOOD\Tonic\Registrar;
 
 use Closure;
+use DOOD\Tonic\Core\Plugin;
 use DOOD\Tonic\Registrar\AJAXEndpoint;
-use DOOD\Tonic\View\Controller as ViewController;
 use Error;
 use ReflectionObject;
 use ReflectionProperty;
@@ -21,13 +21,13 @@ abstract class Shortcode
      * @since 0.0.3
      * @version 2.0
      */
-    public static function add(ViewController $view): void
+    public static function add(): void
     {
         if (!is_admin()) {
             // Register the shortcode.
             add_shortcode(
                 str_replace('-', '_', static::$tag),
-                fn ($attributes) => static::register($view, $attributes)
+                fn ($attributes) => static::register($attributes)
             );
         }
     }
@@ -83,7 +83,7 @@ abstract class Shortcode
      *
      * @since 0.0.1
      */
-    protected static function register(ViewController $view, array|string $attributes): string
+    protected static function register(array|string $attributes): string
     {
         $instance = new static(static::check($attributes));
         $properties = (new ReflectionObject($instance))->getProperties(ReflectionProperty::IS_PUBLIC);
@@ -93,12 +93,12 @@ abstract class Shortcode
                 $data[$property->getName()] = $instance->{$property->getName()};
             }
         }
-        return static::print($view, $data);
+        return static::print($data);
     }
 
-    protected static function print(ViewController $view, array $data): string
+    protected static function print(array $data): string
     {
-        return $view->render(
+        return Plugin::this()->view->render(
             static::$tag,
             $data
         );
