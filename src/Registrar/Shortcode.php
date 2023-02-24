@@ -4,7 +4,7 @@ namespace DOOD\Tonic\Registrar;
 
 use Closure;
 use DOOD\Tonic\Registrar\AJAXEndpoint;
-use DOOD\Tonic\View\ViewController;
+use DOOD\Tonic\View\Controller as ViewController;
 use Error;
 use ReflectionObject;
 use ReflectionProperty;
