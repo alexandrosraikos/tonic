@@ -7,12 +7,12 @@ use DOOD\Tonic\View\Controller as ViewController;
 
 class Plugin
 {
-    public static self $loaded;
+    public static ?self $loaded;
     public Filesystem $filesystem;
     public ViewController $view;
-    public array $features;
+    public FeatureSet $features;
 
-    public function __construct(string $directory)
+    public function __construct(string $directory, bool $load = true)
     {
         // If this file is called directly, abort.
         if (!defined('WPINC')) {
@@ -26,10 +26,11 @@ class Plugin
             $this->filesystem->path('/public/cache'),
             $this->filesystem->path('/plugin/View/Component')
         );
-
-        $this->features->enable();
-
         self::$loaded = $this;
+
+        if ($load) {
+            $this->load();
+        }
     }
 
     protected function features(): FeatureSet
@@ -42,17 +43,13 @@ class Plugin
         );
     }
 
-    public function load(
-        FeatureSet $features,
-    ) {
-        $features->enable();
+    public function load()
+    {
+        $this->features->enable();
     }
 
-    public static function this(): self
+    public static function this(): self|false
     {
-        if (self::$loaded === null) {
-            self::$loaded = new self();
-        }
-        return self::$loaded;
+        return self::$loaded ?? false;
     }
 }
