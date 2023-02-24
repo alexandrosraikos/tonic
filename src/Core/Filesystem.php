@@ -12,9 +12,9 @@ class Filesystem
     {
         $this->root = explode(
             '/',
-            str_replace($GLOBALS['WP_PLUGIN_DIR'], '', __DIR__)
+            str_replace(WP_PLUGIN_DIR, '', __DIR__)
         )[0];
-        $this->root = $GLOBALS['WP_PLUGIN_DIR'].$this->root;
+        $this->root = WP_PLUGIN_DIR.$this->root;
     }
 
     /**
