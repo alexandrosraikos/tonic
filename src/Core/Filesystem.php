@@ -8,13 +8,9 @@ class Filesystem
 {
     public string $root;
 
-    public function __construct()
+    public function __construct(string $root)
     {
-        $this->root = explode(
-            '/',
-            str_replace(WP_PLUGIN_DIR, '', __DIR__)
-        )[0];
-        $this->root = WP_PLUGIN_DIR.$this->root;
+        $this->root = $root;
     }
 
     /**

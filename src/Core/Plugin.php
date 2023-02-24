@@ -12,14 +12,14 @@ class Plugin
     public ViewController $view;
     public array $features;
 
-    public function __construct()
+    public function __construct(string $directory)
     {
         // If this file is called directly, abort.
         if (!defined('WPINC')) {
             die;
         }
 
-        $this->filesystem = new Filesystem();
+        $this->filesystem = new Filesystem($directory);
         $this->features = $this->features();
         $this->view = new ViewController(
             $this->filesystem->path('/resources/views'),
