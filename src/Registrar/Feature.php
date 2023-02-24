@@ -2,9 +2,20 @@
 
 namespace DOOD\Tonic\Registrar;
 
+/**
+ * The feature class for plugin features.
+ *
+ * @since 1.0.0
+ * @author Alexandros Raikos <alexandros@dood.gr>
+ */
 abstract class Feature
 {
-    public function enable()
+    /**
+     * Check permissions and register the fetaure's hooks.
+     *
+     * @since 1.0.0
+     */
+    public function enable(): void
     {
         if ($this->allowed()) {
             $this->hooks()->register();
@@ -26,9 +37,12 @@ abstract class Feature
      * features on WordPress. It is allowed by default
      * but it can be overriden, either with a custom
      * function or by using one of the \DOOD\Support\Acc
+     *
+     * @return bool Whether the feature is allowed.
+     * @since 1.0.0
      */
     public function allowed(): bool
     {
-        return !wp_doing_cron();
+        return !call_user_func('wp_doing_cron');
     }
 }
