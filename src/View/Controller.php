@@ -6,7 +6,7 @@ use Composer\ClassMapGenerator\ClassMapGenerator;
 use Lexdubyna\Blade\Blade;
 use Lexdubyna\Blade\ViewComponent;
 
-class ViewController extends Blade
+class Controller extends Blade
 {
     public function __construct(string $viewPaths, string $cachePath, string $componentsPath)
     {
