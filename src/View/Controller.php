@@ -23,7 +23,7 @@ class Controller extends Blade
         $this->compiler()->components($components);
     }
 
-    protected function partial(ViewComponent $component)
+    public function partial(ViewComponent $component)
     {
         return $this->compiler()->renderComponent($component);
     }
