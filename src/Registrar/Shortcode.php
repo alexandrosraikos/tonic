@@ -32,7 +32,7 @@ abstract class Shortcode
         }
     }
 
-    protected static function ajax(
+    protected function ajax(
         string $pluginID,
         string $action,
         array|string|Closure $responder
@@ -41,6 +41,22 @@ abstract class Shortcode
             $pluginID,
             $action,
             $responder
+        ))->register();
+    }
+
+    protected function endpoint(
+        string $namespace,
+        string $route,
+        array|string|Closure $responder,
+        string $methods = 'GET',
+        int $priority = 10
+    ) {
+        (new RESTEndpoint(
+            $namespace,
+            $route,
+            $responder,
+            $methods,
+            $priority
         ))->register();
     }
 
