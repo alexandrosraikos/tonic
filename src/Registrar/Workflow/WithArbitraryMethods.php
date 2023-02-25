@@ -2,8 +2,19 @@
 
 namespace DOOD\Tonic\Registrar\Workflow;
 
+/**
+ * The trait for features using arbitrary methods.
+ *
+ * @since 1.0.0
+ * @author Alexandros Raikos <alexandros@dood.gr>
+ */
 trait WithArbitraryMethods
 {
+    /**
+     * The conditional method which enables the feature.
+     *
+     * @since 1.0.0
+     */
     public function enable()
     {
         if ($this->allowed()) {
@@ -12,5 +23,10 @@ trait WithArbitraryMethods
         }
     }
 
+    /**
+     * The method that runs during instantiation.
+     *
+     * @since 1.0.0
+     */
     abstract public function run();
 }
