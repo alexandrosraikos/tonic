@@ -25,9 +25,9 @@ class Multilanguage extends Feature
     {
         return Hook::action('plugins_loaded', fn() => call_user_func(
             'load_plugin_textdomain',
-            Plugin::this()->identifier,
+            Plugin::this()->identifier(),
             false,
-            Plugin::this()->identifier.'/languages'
+            Plugin::this()->identifier().'/languages'
         ));
     }
 
@@ -54,7 +54,7 @@ class Multilanguage extends Feature
      */
     public static function translate(string $text): string
     {
-        return call_user_func('__', $text, Plugin::this()->identifier);
+        return call_user_func('__', $text, Plugin::this()->identifier());
     }
 
     /**

@@ -15,7 +15,7 @@ trait WithArbitraryMethods
      *
      * @since 1.0.0
      */
-    public function enable()
+    public function enable(): void
     {
         if ($this->allowed()) {
             $this->hooks()->register();

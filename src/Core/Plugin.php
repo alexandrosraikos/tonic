@@ -3,6 +3,7 @@
 namespace DOOD\Tonic\Core;
 
 use DOOD\Tonic\Registrar\FeatureSet;
+use DOOD\Tonic\Utilities\BrowserScripts;
 use DOOD\Tonic\Utilities\Multilanguage;
 use DOOD\Tonic\View\Controller as ViewController;
 
@@ -24,7 +25,7 @@ class Plugin
      * @var string $identifier The plugin identifier.
      * @since 1.2.0
      */
-    public string $identifier;
+    protected string $identifier;
 
     /**
      * @var string $version The plugin version.
@@ -59,6 +60,7 @@ class Plugin
      * @param array<string,bool> $options The plugin options.
      * @param bool $load Whether to load the plugin automatically.
      *
+     * @version 1.2.0 Added $identifier and $version.
      * @since 1.0.0
      */
     public function __construct(
@@ -66,7 +68,8 @@ class Plugin
         string $version,
         string $directory,
         array $options = [
-            'multilanguage' => true
+            'multilanguage' => true,
+            'browser_scripts' => true,
         ],
         bool $load = true
     ) {
@@ -89,6 +92,11 @@ class Plugin
         // Enable multilanguage support.
         if ($options['multilanguage']) {
             $this->features->set[] = new Multilanguage();
+        }
+
+        // Enable browser scripts.
+        if ($options['browser_scripts']) {
+            $this->features->set[] = new BrowserScripts();
         }
 
         // Keep a single plugin instance reference in memory.
@@ -117,46 +125,6 @@ class Plugin
     }
 
     /**
-     * Register the plugin's scripts.
-     *
-     * @since 1.2.0
-     */
-    protected function scripts(): void
-    {
-        $scripts = $this->filesystem->files('/public/js', '.js');
-        foreach ($scripts as $script) {
-            call_user_func(
-                'wp_enqueue_script',
-                $this->identifier,
-                $script,
-                ['jquery'],
-                $this->version,
-                true
-            );
-        }
-    }
-
-    /**
-     * Register the plugin's styles.
-     *
-     * @since 1.2.0
-     */
-    protected function styles(): void
-    {
-        $styles = $this->filesystem->files('/public/css', '.css');
-        foreach ($styles as $style) {
-            call_user_func(
-                'wp_enqueue_style',
-                $this->identifier,
-                $style,
-                [],
-                $this->version,
-                'all'
-            );
-        }
-    }
-
-    /**
      * Enable the plugin's features.
      *
      * @since 1.0.0
@@ -164,8 +132,49 @@ class Plugin
     public function load(): void
     {
         $this->features->enable();
-        $this->scripts();
-        $this->styles();
+    }
+
+    /**
+     * Retrieve the URI to the given path.
+     *
+     * @param string $path The relative path to the file.
+     * @return string The full URI to the file.
+     *
+     * @since 1.2.0
+     */
+    public function asset(string $path): string
+    {
+        return plugins_url(
+            end(explode('/', $path)),
+            $this->path().'/public/'.$path,
+        );
+    }
+
+    /**
+     * Retrieve the full path to the plugin folder.
+     *
+     * @return string The full path to the plugin folder.
+     *
+     * @since 1.2.0
+     */
+    public function path(): string
+    {
+        return $this->filesystem->root;
+    }
+
+    /**
+     * Retrieve the plugin identifier.
+     *
+     * @param bool $snake Whether to return the identifier in snake case.
+     * @return string The plugin identifier.
+     *
+     * @since 1.2.0
+     */
+    public function identifier(bool $snake = false): string
+    {
+        return $snake
+            ? str_replace('-', '_', $this->identifier)
+            : $this->identifier;
     }
 
     /**
