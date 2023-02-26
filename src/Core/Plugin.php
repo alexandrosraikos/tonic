@@ -34,6 +34,12 @@ class Plugin
     public string $version;
 
     /**
+     * @var array<string,bool> $options The plugin options.
+     * @since 1.2.0
+     */
+    public array $options;
+
+    /**
      * @var Filesystem $filesystem The main filesystem controller.
      * @since 1.0.0
      */
@@ -83,6 +89,7 @@ class Plugin
         $this->version = $version;
         $this->filesystem = new Filesystem($directory);
         $this->features = $this->features();
+        $this->options = $options;
         $this->view = new ViewController(
             $this->filesystem->path('/resources/views'),
             $this->filesystem->path('/public/cache'),

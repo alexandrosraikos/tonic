@@ -60,10 +60,13 @@ class BrowserScripts extends Feature
         // Localize the plugin's scripts.
         call_user_func(
             'wp_localize_script',
-            'TonicProperties',
             Plugin::this()->identifier(),
+            'Tonic',
             [
-                'ajaxURL' => call_user_func('admin_url', 'admin-ajax.php')
+                'ajaxURL' => call_user_func('admin_url', 'admin-ajax.php'),
+                'translations' => (Plugin::this()->options['multilanguage'])
+                    ? Multilanguage::parse(call_user_func('get_locale'))
+                    : null
             ]
         );
     }

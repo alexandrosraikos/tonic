@@ -69,4 +69,19 @@ class Multilanguage extends Feature
     {
         print self::translate($text);
     }
+
+    public static function parse(string $lang): array
+    {
+        // Parse the .mo file
+        $mo = new \MO();
+        
+        if ($mo->import_from_file(
+            Plugin::this()->path().'/languages/'.
+            Plugin::this()->identifier().'-'.substr($lang, 0, 2).'.mo'
+        )) {
+            return $mo->entries;
+        } else {
+            throw new \Error('Could not parse the .mo file.');
+        }
+    }
 }
