@@ -40,7 +40,7 @@ class Multilanguage extends Feature
     {
         Plugin::this()->view->directive(
             'translate',
-            fn ($text) => "<?php echo \DOOD\Tonic\Utilities\Multilanguage::translate($text); ?>"
+            fn ($text) => "<?php echo " . Multilanguage::class . "::translate($text); ?>"
         );
     }
 
