@@ -50,12 +50,12 @@ class Filesystem
      * Retrieve the full system path from a relative path.
      *
      * @param string $relative A relative path to a file
-     *  or directory within the plugin.
+     *  or directory within the plugin (without leading slash).
      *
      * @since 1.0.0
      */
     public function path(string $relative): string
     {
-        return $this->root.$relative;
+        return $this->root.'/'.$relative;
     }
 }

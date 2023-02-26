@@ -9,29 +9,67 @@ use Error;
 use ReflectionObject;
 use ReflectionProperty;
 
+/**
+ * The Shortcode class is a base class for all shortcodes.
+ *
+ * @since 1.0.0
+ * @author Alexandros Raikos <alexandros@dood.gr>
+ */
 abstract class Shortcode
 {
+    /**
+     * The shortcode tag.
+     *
+     * @var string
+     */
     protected static string $tag;
+
+    /**
+     * The shortcode attributes.
+     *
+     * @var array
+     * @since 1.0.0
+     */
     protected static array $attributes = [];
+
+    /**
+     * The shortcode required attributes.
+     *
+     * @var array
+     * @since 1.0.0
+     */
     protected static array $required = [];
 
     /**
      * Publish the desired shortcode with error handling capabilities.
      *
-     * @since 0.0.3
+     * @return void
+     *
+     * @since 1.0.0
      * @version 2.0
      */
     public static function add(): void
     {
-        if (!is_admin()) {
+        if (!call_user_func('is_admin')) {
             // Register the shortcode.
-            add_shortcode(
+            call_user_func(
+                'add_shortcode',
                 str_replace('-', '_', static::$tag),
                 fn ($attributes) => static::register($attributes)
             );
         }
     }
 
+    /**
+     * Register a new AJAX endpoint.
+     *
+     * @param string $pluginID The plugin ID.
+     * @param string $action The AJAX action.
+     * @param array|string|Closure $responder The AJAX responder.
+     * @return void
+     *
+     * @since 1.0.0
+     */
     protected function ajax(
         string $pluginID,
         string $action,
@@ -44,6 +82,18 @@ abstract class Shortcode
         ))->register();
     }
 
+    /**
+     * Register a new REST endpoint.
+     *
+     * @param string $namespace The REST namespace.
+     * @param string $route The REST route.
+     * @param array|string|Closure $responder The REST responder.
+     * @param string $methods The REST methods.
+     * @param int $priority The REST priority.
+     * @return void
+     *
+     * @since 1.0.0
+     */
     protected function endpoint(
         string $namespace,
         string $route,
@@ -64,7 +114,10 @@ abstract class Shortcode
      * Safely extract the shortcode attributes from
      * the attribute list.
      *
-     * @since 0.0.1
+     * @param array|string $providedAttributes The provided attributes.
+     * @return array The extracted attributes.
+     *
+     * @since 1.0.0
      */
     protected static function check(array|string $providedAttributes): array
     {
@@ -83,7 +136,7 @@ abstract class Shortcode
             }
         }
 
-        return shortcode_atts(static::$attributes, $providedAttributes);
+        return call_user_func('shortcode_atts', static::$attributes, $providedAttributes);
     }
     
     /**
@@ -93,11 +146,10 @@ abstract class Shortcode
      * handles all shortcode exceptions by printing
      * notices properly.
      *
-     * @param array $atts The shortcode attributes.
-     * @param string $tag The shortcode identifier.
      * @param callable $content The content printing function.
+     * @return string The shortcode print.
      *
-     * @since 0.0.1
+     * @since 1.0.0
      */
     protected static function register(array|string $attributes): string
     {
@@ -112,6 +164,14 @@ abstract class Shortcode
         return static::print($data);
     }
 
+    /**
+     * Print the shortcode.
+     *
+     * @param array $data The data to be printed.
+     * @return string The shortcode print.
+     *
+     * @since 1.0.0
+     */
     protected static function print(array $data): string
     {
         return Plugin::this()->view->render(
