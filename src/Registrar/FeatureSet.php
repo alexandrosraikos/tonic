@@ -17,7 +17,7 @@ class FeatureSet
      * @var array The array of features.
      * @since 1.0.0
      */
-    protected array $features;
+    public array $set;
 
     /**
      * Instantiate a feature set.
@@ -27,7 +27,7 @@ class FeatureSet
      */
     public function __construct(Feature ...$features)
     {
-        $this->features = $features;
+        $this->set = $features;
     }
 
     /**
@@ -37,7 +37,7 @@ class FeatureSet
      */
     public function enable(): void
     {
-        foreach ($this->features as $feature) {
+        foreach ($this->set as $feature) {
             $feature->enable();
         }
     }

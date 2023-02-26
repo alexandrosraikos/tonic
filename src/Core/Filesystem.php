@@ -47,6 +47,20 @@ class Filesystem
     }
 
     /**
+     * Retrieve an array of file paths given a directory.
+     *
+     * @param string $relative The relative directory path (with leading slash).
+     * @param string $extension The file extension to filter by.
+     * @return array An array of file names.
+     *
+     * @since 1.2.0
+     */
+    public function files(string $directory, string $extension = ''): array
+    {
+        return glob($this->root.$directory.'/*'.$extension);
+    }
+
+    /**
      * Retrieve the full system path from a relative path.
      *
      * @param string $relative A relative path to a file
