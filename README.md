@@ -6,34 +6,22 @@ An intuitive WordPress plugin development framework.
 
 ## Getting started
 
-To get started, simply include it in your WordPress plugin's composer file.
+### Using the plugin boilerplate
+
+You can use a ready-made plugin boilerplate to get started. The boilerplate is available on [GitHub](https://github.com/doodengineering/tonic-plugin).
+
+### Using the theme boilerplate
+
+_This boilerplate will be available soon._
+
+### Manually
+
+To get started, simply include it in your WordPress plugin or theme composer file.
 
 ```sh
 composer install doodengineering/tonic
 ```
 
-### Directory Structure
-
-The filesystem works best when structured in the following way.
-
-```sh
-my-plugin/ # The root plugin folder.
-├─ lib/ # <-- Contains composer dependencies.
-├─ plugin/ # <-- Contains functionality.
-│  ├─ Feature/ # <-- `Feature` classes.
-│  ├─ View/ # <-- View-related files.
-│  │  ├─ Component/ # <--  `Component` classes.
-│  │  ├─ Shortcode/ # <--  `Shortcode` classes.
-├─ resources/ # <-- Contains build dependencies.
-│  ├─ css/ # <-- Stylesheets.
-│  ├─ js/ # <-- Scripts.
-│  ├─ views/ # <-- Blade templates.
-├─ languages/ # <-- Contains translations.
-│  ├─ my-plugin.pot # <-- Translations template.
-├─ public/ # <-- Publicly available resources.
-├─ my-plugin.php # <-- WordPress required.
-```
-
 ## Documentation
 
-The documentation is currently in progress. You can refer to the [wiki](https://github.com/doodengineering/tonic/wiki) for information.
+The framework's technical documentation is currently in progress. If you're eager to get started, use the boilerplates previously mentioned to see some working examples. You can refer to the [wiki](https://github.com/doodengineering/tonic/wiki) for information.
