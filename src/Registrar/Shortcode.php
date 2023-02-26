@@ -41,6 +41,15 @@ abstract class Shortcode
     protected static array $required = [];
 
     /**
+     * The shortcode constructor.
+     *
+     * @param array $attributes The shortcode attributes.
+     *
+     * @since 1.0.0
+     */
+    abstract public function __construct(array $attributes);
+    
+    /**
      * Publish the desired shortcode with error handling capabilities.
      *
      * @return void

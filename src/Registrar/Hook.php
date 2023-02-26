@@ -106,9 +106,9 @@ class Hook
      *
      * @since 1.0.0
      */
-    public static function action($name, array|string|Closure $completion, $priority = 10, $arguments = 1)
+    public static function action($name, array|string|Closure $completion, $priority = 10, $arguments = 1): Hook
     {
-        return new static(
+        return new self(
             'action',
             $name,
             $completion,
@@ -128,9 +128,9 @@ class Hook
      *
      * @since 1.0.0
      */
-    public static function filter($name, array|string|Closure $completion, $priority = 10, $arguments = 1)
+    public static function filter($name, array|string|Closure $completion, $priority = 10, $arguments = 1): Hook
     {
-        return new static(
+        return new self(
             'action',
             $name,
             $completion,
@@ -148,8 +148,8 @@ class Hook
      * @since 1.0.0
      */
     public static function group(
-        ?string $name = null,
-        ?array $properties = null,
+        string $name,
+        array $properties,
         Hook ...$hooks
     ): HookSet {
         $group = new HookSet($name, $properties, ...$hooks);

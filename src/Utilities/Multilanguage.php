@@ -70,6 +70,14 @@ class Multilanguage extends Feature
         print self::translate($text);
     }
 
+    /**
+     * Parse a .mo file.
+     *
+     * @param string $lang The language to parse (ISO639-1).
+     * @return array
+     *
+     * @since 1.2.0
+     */
     public static function parse(string $lang): array
     {
         // Parse the .mo file
