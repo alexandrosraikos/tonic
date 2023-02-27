@@ -1,0 +1,2 @@
+
+Fatal error: Declaration of PHPDocsMD\Console\CLI::run(?Symfony\Component\Console\Input\InputInterface $input = null, ?Symfony\Component\Console\Output\OutputInterface $output = null) must be compatible with Symfony\Component\Console\Application::run(?Symfony\Component\Console\Input\InputInterface $input = null, ?Symfony\Component\Console\Output\OutputInterface $output = null): int in /Users/alexandros/.composer/vendor/victorjonsson/markdowndocs/src/PHPDocsMD/Console/CLI.php on line 26
