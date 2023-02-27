@@ -4,6 +4,8 @@ An intuitive WordPress plugin development framework.
 
 [![DeepSource](https://deepsource.io/gh/doodengineering/tonic.svg/?label=active+issues&show_trend=true&token=CR7CQYPYC3yIczV8tPRDDLnT)](https://deepsource.io/gh/doodengineering/tonic/?ref=repository-badge)
 
+This framework also works in combination with the [TonicJS](https://www.github.com/doodengineering/tonicjs) package.
+
 ## Getting started
 
 ### Using the plugin boilerplate
