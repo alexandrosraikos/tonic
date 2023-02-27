@@ -27,6 +27,25 @@ class Controller extends Blade
     {
         parent::__construct($viewPaths, $cachePath);
         $this->attach($componentsPath);
+        $this->interactive();
+    }
+
+    /**
+     * Register the 'do' directive for Tonic JS.
+     *
+     * This directive will be used to render
+     * the action id of a component for Tonic JS.
+     *
+     * @return void
+     *
+     * @since 1.3.0
+     */
+    protected function interactive(): void
+    {
+        $this->directive(
+            'do',
+            fn($action) => "<?php echo data-tonic-action-id=\"{$action}\" ?>"
+        );
     }
 
     /**
