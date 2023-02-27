@@ -61,12 +61,13 @@ class BrowserScripts extends Feature
         call_user_func(
             'wp_localize_script',
             Plugin::this()->identifier(),
-            'Tonic',
+            'TonicJSProperties',
             [
                 'ajaxURL' => call_user_func('admin_url', 'admin-ajax.php'),
                 'translations' => (Plugin::this()->options['multilanguage'])
                     ? Multilanguage::parse(call_user_func('get_locale'))
-                    : null
+                    : null,
+                'identifier' => Plugin::this()->identifier(),
             ]
         );
     }

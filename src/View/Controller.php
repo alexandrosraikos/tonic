@@ -44,7 +44,15 @@ class Controller extends Blade
     {
         $this->directive(
             'do',
-            fn($action) => "<?php echo data-tonic-action-id=\"{$action}\" ?>"
+            function (string $expression) {
+                $action = [];
+                eval("\$action = $expression;");
+                $action[1] = \DOOD\Tonic\Core\Plugin::this()->identifier() .'-'. $action[1];
+                return <<<HTML
+                    <?php echo 'data-tonic-event="{$action[0]}"'; ?>
+                    <?php echo 'data-tonic-action-id="{$action[1]}"'; ?>
+                HTML;
+            }
         );
     }
 
