@@ -3,9 +3,9 @@
 namespace DOOD\Tonic\Registrar;
 
 use Closure;
+use DOOD\Tonic\Core\Exceptions\TonicError;
 use DOOD\Tonic\Core\Plugin;
 use DOOD\Tonic\Registrar\AJAXEndpoint;
-use Error;
 use ReflectionObject;
 use ReflectionProperty;
 
@@ -131,12 +131,12 @@ abstract class Shortcode
     protected static function check(array|string $providedAttributes): array
     {
         if (is_string($providedAttributes)) {
-            throw new Error('There was a problem configuring the shortcode.');
+            throw new TonicError('There was a problem configuring the shortcode.');
         }
 
         foreach (static::$required as $requiredAttribute) {
             if (!in_array($requiredAttribute, array_keys($providedAttributes), true)) {
-                throw new Error(
+                throw new TonicError(
                     sprintf(
                         'Please insert the %s attribute into the shortcode.',
                         $requiredAttribute
@@ -172,7 +172,7 @@ abstract class Shortcode
                 }
             }
             return static::print($data);
-        } catch (Error $error) {
+        } catch (TonicError $error) {
             // TODO @alexandrosraikos: Add a debuggable exception support.
             // TODO @alexandrosraikos: Make a notice view component class.
             return $error->getMessage();

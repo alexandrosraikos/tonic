@@ -2,10 +2,12 @@
 
 namespace DOOD\Tonic\Core;
 
+use DOOD\Tonic\Core\Exceptions\TonicError;
 use DOOD\Tonic\Registrar\FeatureSet;
 use DOOD\Tonic\Utilities\BrowserScripts;
 use DOOD\Tonic\Utilities\Multilanguage;
 use DOOD\Tonic\View\Controller as ViewController;
+use Error;
 
 /**
  * The main plugin class.
@@ -138,7 +140,15 @@ class Plugin
      */
     public function load(): void
     {
-        $this->features->enable();
+        try {
+            $this->features->enable();
+        } catch (TonicError $e) {
+            if (defined(WP_DEBUG) && WP_DEBUG) {
+                print($e->getMessage());
+            } else {
+                print('An error occurred, please try again later.');
+            }
+        }
     }
 
     /**
