@@ -162,15 +162,21 @@ abstract class Shortcode
      */
     protected static function register(array|string $attributes): string
     {
-        $instance = new static(static::check($attributes));
-        $properties = (new ReflectionObject($instance))->getProperties(ReflectionProperty::IS_PUBLIC);
-        $data = [];
-        foreach ($properties as $property) {
-            if (isset($instance->{$property->getName()})) {
-                $data[$property->getName()] = $instance->{$property->getName()};
+        try {
+            $instance = new static(static::check($attributes));
+            $properties = (new ReflectionObject($instance))->getProperties(ReflectionProperty::IS_PUBLIC);
+            $data = [];
+            foreach ($properties as $property) {
+                if (isset($instance->{$property->getName()})) {
+                    $data[$property->getName()] = $instance->{$property->getName()};
+                }
             }
+            return static::print($data);
+        } catch (Error $error) {
+            // TODO @alexandrosraikos: Add a debuggable exception support.
+            // TODO @alexandrosraikos: Make a notice view component class.
+            return $error->getMessage();
         }
-        return static::print($data);
     }
 
     /**
