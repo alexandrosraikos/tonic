@@ -161,12 +161,10 @@ class Plugin
      */
     public function asset(string $path): string
     {
-        $path = explode('/', $path);
-        $end = end($path);
         return call_user_func(
             'plugins_url',
-            end($path),
-            $this->path().'/public/'.$end,
+            end(explode('/', $path)),
+            $this->path().'/public/'.$path,
         );
     }
 
