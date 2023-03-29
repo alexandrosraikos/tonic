@@ -131,7 +131,7 @@ abstract class Shortcode
     protected static function check(array|string $providedAttributes): array
     {
         if (is_string($providedAttributes)) {
-            throw new TonicError('There was a problem configuring the shortcode.');
+            return [];
         }
 
         foreach (static::$required as $requiredAttribute) {
