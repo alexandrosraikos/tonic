@@ -82,6 +82,12 @@ class Multilanguage extends Feature
     {
         // Parse the .mo file
         $mo = new \MO();
+        $file = Plugin::this()->path().'/languages/'.
+            Plugin::this()->identifier().'-'.substr($lang, 0, 2).'.mo';
+
+        if (!file_exists($file)) {
+            return [];
+        }
         
         if ($mo->import_from_file(
             Plugin::this()->path().'/languages/'.
